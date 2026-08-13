@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "211217224483",
+    "project_id": "newgen-4ec38",
+    "storage_bucket": "newgen-4ec38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211217224483:android:b77d902d8d11bf1f723296",
+        "android_client_info": {
+          "package_name": "com.example.newgen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGHov_hKmpUuanBVKHoeeaCEoyBXwtMCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

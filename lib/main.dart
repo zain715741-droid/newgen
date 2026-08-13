@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newgen/views/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
      
       );
-      home:
+      home:LoginPage();
   }
 }

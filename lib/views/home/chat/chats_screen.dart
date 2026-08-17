@@ -36,7 +36,6 @@ class ChatsPage extends StatelessWidget {
           return ListView.builder(
             padding: const EdgeInsets.all(15),
             itemCount: users.length,
-
             itemBuilder: (context, index) {
               final user = users[index];
               final data = user.data()  as Map<String, dynamic>;
@@ -67,24 +66,13 @@ class ChatsPage extends StatelessWidget {
                     ),
                   ),
 
-                  title: Text(
-                    name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
+                  title: Text(name,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17,),),
+                  subtitle: Text(data['email'] ?? '',),
+                  trailing: const Icon(Icons.chat_bubble_outline,color: Color(0xff667EEA),),
 
-                  subtitle: Text(
-                    data['email'] ?? '',
-                  ),
-
-                  trailing: const Icon(
-                    Icons.chat_bubble_outline,
-                    color: Color(0xff667EEA),
-                  ),
                   onLongPress: (){
-                    print('Long pressed on chat with $name');
+                    // print('Long pressed on chat with $name');
+                    
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -92,19 +80,25 @@ class ChatsPage extends StatelessWidget {
                           title: Text('Delete Chat'),
                           content: Text('Are you sure you want to delete the chat with $name?'),
                           actions: [
-                            TextButton(
-                              child: Text('Cancel'),
+                            
+                            TextButton(child: Text('Cancel'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
-                            TextButton(
-                              child: Text('Delete'),
-                              onPressed: () {
-                                // Implement chat deletion logic here
+                           
+                            TextButton(child: Text('Delete'),
+                              onPressed: ()async {
                                 Navigator.of(context).pop();
+
+                                await FirebaseFirestore.instance .collection('student').doc(uid).delete();
+                               
+                                Get.snackbar('Deleted','$name removed successfully',);    
+                                  
                               },
                             ),
+
+
                           ],
                         );
                       },
@@ -115,10 +109,10 @@ class ChatsPage extends StatelessWidget {
                   onTap: () {
                     Get.to(
                       () => ChatPage(
-                        name: name,
-                        uid: uid,
-                      ),
-                    );
+                                        name: name,
+                                        uid: uid,
+                            ),
+                           );
                   },
                 ),
               );

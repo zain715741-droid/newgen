@@ -1,5 +1,3 @@
-// ================= SETTINGS =================
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,7 +18,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-
     dark = box.read('darkMode') ?? false;
   }
 
@@ -31,12 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
     });
 
     box.write('darkMode', value);
-
-    Get.changeTheme(
-      value
-          ? ThemeData.dark()
-          : ThemeData.light(),
-    );
+    Get.changeTheme( value? ThemeData.dark() : ThemeData.light(), );
   }
 
   @override
@@ -50,29 +42,13 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
 
       body: ListTile(
-        leading: Icon(
-          dark
-              ? Icons.dark_mode
-              : Icons.light_mode,
-        ),
+        leading: Icon( dark ? Icons.dark_mode : Icons.light_mode,),
 
-        title: const Text(
-          'Dark Mode',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text('Dark Mode',style: TextStyle(fontWeight: FontWeight.bold,),),
 
-        subtitle: Text(
-          dark
-              ? 'Dark theme enabled'
-              : 'Light theme enabled',
-        ),
+        subtitle: Text( dark ? 'Dark theme enabled' : 'Light theme enabled', ),
 
-        trailing: Switch(
-          value: dark,
-          onChanged: changeTheme,
-        ),
+        trailing: Switch( value: dark, onChanged: changeTheme,),
       ),
     );
   }

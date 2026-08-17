@@ -9,8 +9,8 @@ class NewChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myUid =
-        FirebaseAuth.instance.currentUser!.uid;
+    
+    final myUid = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,10 +20,7 @@ class NewChatPage extends StatelessWidget {
       ),
 
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('student')
-            .snapshots(),
-
+        stream: FirebaseFirestore.instance.collection('student').snapshots(),
         builder: (context, snapshot) {
 
           if (!snapshot.hasData) {
@@ -32,9 +29,7 @@ class NewChatPage extends StatelessWidget {
             );
           }
 
-          final users = snapshot.data!.docs
-              .where((user) => user.id != myUid)
-              .toList();
+          final users = snapshot.data!.docs.where((user) => user.id != myUid).toList();
 
           if (users.isEmpty) {
             return const Center(
@@ -47,44 +42,20 @@ class NewChatPage extends StatelessWidget {
 
             itemBuilder: (context, index) {
 
-              final data =
-                  users[index].data()
-                      as Map<String, dynamic>;
-
+              final data = users[index].data()as Map<String, dynamic>;
               final uid = users[index].id;
               final name = data['name'] ?? 'User';
 
               return ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 5,
-                ),
-
+                contentPadding:const EdgeInsets.symmetric(horizontal: 20,vertical: 5,),
                 leading: CircleAvatar(
                   radius: 25,
-                  backgroundColor:
-                      const Color(0xff667EEA),
-
-                  child: Text(
-                    name[0].toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
+                  backgroundColor:const Color(0xff667EEA),
+                  child: Text( name[0].toUpperCase(),style: const TextStyle(color: Colors.white,fontSize: 20,), ),
                 ),
 
-                title: Text(
-                  name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                subtitle: Text(
-                  data['email'] ?? '',
-                ),
+                title: Text(name,style: const TextStyle(fontWeight: FontWeight.bold,),),
+                subtitle: Text(data['email'] ?? '',),
 
                 onTap: () {
                   Get.to(

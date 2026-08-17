@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:newgen/controllers/home_controller.dart';
 import 'package:newgen/views/home/chat/chats_screen.dart';
-import 'package:newgen/views/home/setting/settings.dart';
+import 'package:newgen/views/setting/settings.dart';
 import 'package:newgen/views/home/status_screen.dart';
 import 'package:newgen/views/home/calls_screen.dart';
 import 'package:newgen/views/profile/profile.dart';
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ctrl = Get.put(HomeCtrl());
+    final HomeCtrl ctrl = Get.put(HomeCtrl());
     // ignore: unused_local_variable
     final box = GetStorage();
 
@@ -34,8 +34,7 @@ class HomePage extends StatelessWidget {
         foregroundColor: Colors.white,
 
         title: Obx(
-          () => Text(
-            ctrl.index.value == 0 ? 'WhatsApp': ctrl.index.value == 1 ? 'Status': 'Calls',
+          () => Text( ctrl.index.value == 0 ? 'NewGen': ctrl.index.value == 1 ? 'Status': 'Calls',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -102,30 +101,19 @@ class HomePage extends StatelessWidget {
                   const CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: 45,
-                      color: Color(0xff667EEA),
-                    ),
+                    child: Icon(Icons.person,size: 45,color: Color(0xff667EEA),),
                   ),
 
                   const SizedBox(height: 10),
 
-                  const Text(
-                    'My Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                Obx(
+                     () => Text( ctrl.userName.value,
+                           style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold,),
+                           ),
                     ),
-                  ),
 
-                  Text(
-                    'Welcome back!',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(.8),
-                    ),
-                  ),
+                  Text('Welcome back!',style: TextStyle(color: Colors.white.withOpacity(.8),),),
+
                 ],
               ),
             ),
@@ -183,26 +171,39 @@ class HomePage extends StatelessWidget {
               },
             ),
 
-            const Spacer(),
+           const Spacer(),
 
-            const Divider(),
+           const Divider(),
 
-            // LOGOUT
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Colors.red,
-              ),
-              title: const Text(
-                'Logout',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 25,
+                  left: 8,
+                  right: 8,
+                ),
+                child: ListTile(
+                  tileColor: Colors.red.withOpacity(.08),
+
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+
+                  leading: const Icon(
+                    Icons.logout,
+                    color: Colors.red,
+                  ),
+
+                  title: const Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  onTap: ctrl.logout,
                 ),
               ),
-              onTap: ctrl.logout,
-            ),
-
             const SizedBox(height: 15),
           ],
         ),

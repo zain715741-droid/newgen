@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
 
-  final ctrl = Get.put(LoginCtrl());
+  final LoginCtrl ctrl = Get.put(LoginCtrl());
 
   @override
   Widget build(BuildContext context) {

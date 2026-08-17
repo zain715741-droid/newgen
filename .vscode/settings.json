@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/newgen/windows"
+    "cmake.sourceDirectory": "D:/newgen/windows",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

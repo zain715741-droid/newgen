@@ -16,9 +16,7 @@ class ChatsPage extends StatelessWidget {
       backgroundColor: const Color(0xffF5F6FA),
 
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('student')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('student').snapshots(),
 
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -27,9 +25,7 @@ class ChatsPage extends StatelessWidget {
             );
           }
 
-          final users = snapshot.data!.docs
-              .where((e) => e.id != myUid)
-              .toList();
+          final users = snapshot.data!.docs.where((e) => e.id != myUid).toList();
 
           if (users.isEmpty) {
             return const Center(
@@ -43,8 +39,7 @@ class ChatsPage extends StatelessWidget {
 
             itemBuilder: (context, index) {
               final user = users[index];
-              final data = user.data()
-                  as Map<String, dynamic>;
+              final data = user.data()  as Map<String, dynamic>;
 
               final name = data['name'] ?? 'User';
               final uid = user.id;
@@ -63,8 +58,7 @@ class ChatsPage extends StatelessWidget {
                     radius: 28,
                     backgroundColor: const Color(0xff667EEA),
 
-                    child: Text(
-                      name[0].toUpperCase(),
+                    child: Text( name[0].toUpperCase(),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 21,
@@ -89,6 +83,34 @@ class ChatsPage extends StatelessWidget {
                     Icons.chat_bubble_outline,
                     color: Color(0xff667EEA),
                   ),
+                  onLongPress: (){
+                    print('Long pressed on chat with $name');
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Delete Chat'),
+                          content: Text('Are you sure you want to delete the chat with $name?'),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Delete'),
+                              onPressed: () {
+                                // Implement chat deletion logic here
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                      
+                  },
 
                   onTap: () {
                     Get.to(

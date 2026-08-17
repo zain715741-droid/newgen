@@ -1,40 +1,69 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
- final String text;
- final TextEditingController controller;
- final bool? obscureText;
- final TextInputType keyboardType;
- final String? Function(String?)? validator;
- final String hintText;
- final Widget? suffixIcon;
- final Widget? prefixIcon;
- final String? obscuringCharacter;
+  final TextEditingController controller;
+  final String hintText;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final Widget? suffixIcon;
 
-
-  const CustomTextField({ 
-    super.key, required this.text, required this.controller, this.obscureText, required this.keyboardType, this.validator, required this.hintText, this.suffixIcon, this.prefixIcon, this.obscuringCharacter, 
-  
-});
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.suffixIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField (
+    IconData icon = Icons.person_outline;
+
+    if (hintText == 'Email') {
+      icon = Icons.email_outlined;
+    } else if (hintText == 'Password') {
+      icon = Icons.lock_outline;
+    } else if (hintText == 'Phone Number') {
+      icon = Icons.phone_outlined;
+    } else if (hintText == 'CNIC') {
+      icon = Icons.badge_outlined;
+    } else if (hintText == 'Blood Group') {
+      icon = Icons.bloodtype_outlined;
+    } else if (hintText == 'Confirm Password') {
+      icon = Icons.lock_outline;
+    }
+
+    return TextField(
       controller: controller,
-      obscureText: obscureText ?? false,
       keyboardType: keyboardType,
-      validator: validator,
-      obscuringCharacter: obscuringCharacter ?? '*',
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
+        prefixIcon: Icon(icon, color: const Color(0xff667EEA)),
         suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon,
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 18,
+          horizontal: 15,
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey.shade200),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: Color(0xff667EEA),
+            width: 2,
+          ),
         ),
       ),
-
-
     );
   }
 }

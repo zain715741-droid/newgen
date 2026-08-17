@@ -1,20 +1,17 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newgen/controllers/login_ctrl.dart';
-import 'package:newgen/views/signup/signup_screen.dart';
+import 'package:newgen/controllers/signup_ctrl.dart';
 import 'package:newgen/widgets/custom_textfield.dart';
 
-
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
-
-  final ctrl = Get.put(LoginCtrl());
+class Signup extends StatelessWidget {
+  const Signup({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ctrl = Get.put(SignupCtrl());
+
     return Scaffold(
       backgroundColor: const Color(0xffF5F6FF),
 
@@ -27,51 +24,52 @@ class LoginPage extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(
-                  top: 55,
-                  bottom: 45,
+                  top: 35,
+                  bottom: 30,
                 ),
+
                 decoration: const BoxDecoration(
                   color: Color(0xff667EEA),
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(45),
-                    bottomRight: Radius.circular(45),
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
                   ),
                 ),
 
                 child: Column(
                   children: [
+
                     Container(
-                      padding: const EdgeInsets.all(18),
+                      padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(.2),
                         shape: BoxShape.circle,
                       ),
+
                       child: const Icon(
-                        Icons.chat_rounded,
-                        size: 55,
+                        Icons.person_add_rounded,
+                        size: 42,
                         color: Colors.white,
                       ),
                     ),
 
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 12),
 
                     const Text(
-                      'Welcome Back!',
+                      'Create Account',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 30,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 5),
 
                     const Text(
-                      'Login to continue chatting',
+                      'Join us and start chatting',
                       style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 15,
                       ),
                     ),
                   ],
@@ -79,40 +77,71 @@ class LoginPage extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.all(22),
+                padding: const EdgeInsets.all(20),
 
                 child: Column(
                   children: [
 
-                    const SizedBox(height: 15),
+                    CustomTextField(
+                      controller: ctrl.nameCtrl,
+                      hintText: 'Name',
+                    ),
+
+                    const SizedBox(height: 14),
 
                     CustomTextField(
-                      controller: emailCtrl,
+                      controller: ctrl.emailCtrl,
                       hintText: 'Email',
                       keyboardType: TextInputType.emailAddress,
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
 
                     CustomTextField(
-                      controller: passwordCtrl,
+                      controller: ctrl.phoneCtrl,
+                      hintText: 'Phone Number',
+                      keyboardType: TextInputType.phone,
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    CustomTextField(
+                      controller: ctrl.cnicCtrl,
+                      hintText: 'CNIC',
+                      keyboardType: TextInputType.number,
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    CustomTextField(
+                      controller: ctrl.bloodCtrl,
+                      hintText: 'Blood Group',
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    CustomTextField(
+                      controller: ctrl.passwordCtrl,
                       hintText: 'Password',
                       obscureText: true,
                     ),
 
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 14),
+
+                    CustomTextField(
+                      controller: ctrl.confirmPasswordCtrl,
+                      hintText: 'Confirm Password',
+                      obscureText: true,
+                    ),
+
+                    const SizedBox(height: 22),
 
                     SizedBox(
                       width: double.infinity,
                       height: 55,
 
                       child: ElevatedButton(
-                        onPressed: () {
-                          ctrl.login(
-                            emailCtrl.text,
-                            passwordCtrl.text,
-                          );
-                        },
+                        onPressed: ctrl.signup,
 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff667EEA),
@@ -124,7 +153,7 @@ class LoginPage extends StatelessWidget {
                         ),
 
                         child: const Text(
-                          'Login',
+                          'Create Account',
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -133,45 +162,16 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            'OR',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-
-                        Expanded(
-                          child: Divider(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
 
                     TextButton(
                       onPressed: () {
-                        Get.to(() => const Signup());
+                        Get.back();
                       },
                       child: const Text(
-                        'Create New Account',
+                        'Already have an account? Login',
                         style: TextStyle(
                           color: Color(0xff667EEA),
-                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

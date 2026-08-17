@@ -1,16 +1,37 @@
-import 'package:flutter/widgets.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:newgen/views/home/home_screen.dart';
 
 class LoginCtrl extends GetxController {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final isLoading = false.obs;
 
-  void login() async {
-    isLoading.value = true;
-    // Perform login logic here
-    await Future.delayed(const Duration(seconds: 2));
-    isLoading.value = false;
+  final box = GetStorage();
+
+  Future<void> login(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      await box.write('isLoggedIn', true);
+
+      Get.snackbar('Success', 'Login successful');
+
+      Get.offAll(() => const HomePage());
+
+    } on FirebaseAuthException catch (e) {
+
+      if (e.code == 'user-not-found') {
+        Get.snackbar('Error', 'No user found');
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar('Error', 'Wrong password');
+      } else {
+        Get.snackbar('Error', e.message ?? 'Login failed');
+      }
+
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
   }
 }

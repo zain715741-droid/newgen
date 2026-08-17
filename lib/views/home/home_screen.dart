@@ -1,121 +1,244 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:newgen/controllers/home_controller.dart';
+import 'package:newgen/views/home/chat/chats_screen.dart';
+import 'package:newgen/views/home/setting/settings.dart';
+import 'package:newgen/views/home/status_screen.dart';
+import 'package:newgen/views/home/calls_screen.dart';
+import 'package:newgen/views/profile/profile.dart';
 
-import '../../controllers/home_controller.dart';
-import 'chats_screen.dart';
-import 'status_screen.dart';
-import 'calls_screen.dart';
-import 'drawer.dart';
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final pages = const [
+    ChatsPage(),
+    StatusPage(),
+    CallsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    final ctrl = Get.put(HomeCtrl());
+    // ignore: unused_local_variable
+    final box = GetStorage();
 
-    final screens = [
-      const ChatsScreen(),
-      const StatusScreen(),
-      const CallsScreen(),
-    ];
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-    return Obx(
-      () => Scaffold(
-        backgroundColor: const Color(0xFFF7F9F9),
+      // APP BAR
+      appBar: AppBar(
+        backgroundColor: const Color(0xff667EEA),
+        foregroundColor: Colors.white,
 
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: const Color(0xFF075E54),
-          foregroundColor: Colors.white,
-          titleSpacing: 20,
-          title: const Text(
-            'Chat App',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
+        title: Obx(
+          () => Text(
+            ctrl.index.value == 0 ? 'WhatsApp': ctrl.index.value == 1 ? 'Status': 'Calls',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search_rounded),
-            ),
-            PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert_rounded),
-              onSelected: (value) {},
-              itemBuilder: (context) => [
-                const PopupMenuItem(
-                  value: 'new_group',
-                  child: Text('New Group'),
+        ),
+
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.snackbar(
+                'Search',
+                'Search clicked',
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
+
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'settings',
+                child: Text('Settings'),
+              ),
+              const PopupMenuItem(
+                value: 'logout',
+                child: Text('Logout'),
+              ),
+            ],
+
+            onSelected: (value) {
+              if (value == 'settings') {
+                Get.to(() => const SettingsPage());
+              }
+
+              if (value == 'logout') {
+                ctrl.logout();
+              }
+            },
+          ),
+        ],
+      ),
+
+      // DRAWER
+      drawer: Drawer(
+        child: Column(
+          children: [
+
+            // HEADER
+            Container(
+              height: 210,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color(0xff667EEA),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
-                const PopupMenuItem(
-                  value: 'settings',
-                  child: Text('Settings'),
-                ),
-              ],
+              ),
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  const CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      size: 45,
+                      color: Color(0xff667EEA),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  const Text(
+                    'My Account',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    'Welcome back!',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(.8),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 8),
+
+            const SizedBox(height: 10),
+           
+            // PROFILE
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: const Text('Profile'),
+              onTap: () {
+                Get.back();
+                Get.to(() => const ProfilePage());
+              },
+            ),
+            
+            // CHATS
+            ListTile(
+              leading: const Icon(Icons.chat_bubble_outline),
+              title: const Text('Chats'),
+              onTap: () {
+                ctrl.changePage(0);
+                Get.back();
+              },
+            ),
+
+            // STATUS
+            ListTile(
+              leading: const Icon(Icons.update),
+              title: const Text('Status'),
+              onTap: () {
+                ctrl.changePage(1);
+                Get.back();
+              },
+            ),
+
+            // CALLS
+            ListTile(
+              leading: const Icon(Icons.call_outlined),
+              title: const Text('Calls'),
+              onTap: () {
+                ctrl.changePage(2);
+                Get.back();
+              },
+            ),
+
+
+            // SETTINGS
+            ListTile(
+              leading: const Icon(Icons.settings_outlined),
+              title: const Text('Settings'),
+              onTap: () {
+                Get.back();
+                Get.to(() => const SettingsPage());
+              },
+            ),
+
+            const Spacer(),
+
+            const Divider(),
+
+            // LOGOUT
+            ListTile(
+              leading: const Icon(
+                Icons.logout,
+                color: Colors.red,
+              ),
+              title: const Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: ctrl.logout,
+            ),
+
+            const SizedBox(height: 15),
           ],
         ),
+      ),
 
-        drawer: const AppDrawer(),
+      // BODY
+      body: Obx(
+        () => pages[ctrl.index.value],
+      ),
 
-        body: screens[controller.currentIndex.value],
+      // BOTTOM NAVIGATION
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: ctrl.index.value,
+          onTap: ctrl.changePage,
 
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xFF25D366),
-          foregroundColor: Colors.white,
-          elevation: 5,
-          onPressed: () {},
-          child: Icon(
-            controller.currentIndex.value == 0
-                ? Icons.chat_rounded
-                : controller.currentIndex.value == 1
-                    ? Icons.camera_alt_rounded
-                    : Icons.add_call,
-          ),
-        ),
+          selectedItemColor: const Color(0xff667EEA),
+          unselectedItemColor: Colors.grey,
 
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 12,
-                color: Colors.black12,
-                offset: Offset(0, -3),
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            currentIndex: controller.currentIndex.value,
-            onTap: controller.changePage,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: const Color(0xFF075E54),
-            unselectedItemColor: Colors.grey,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat_bubble_outline_rounded),
-                activeIcon: Icon(Icons.chat_bubble_rounded),
-                label: 'Chats',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.donut_large_outlined),
-                activeIcon: Icon(Icons.donut_large_rounded),
-                label: 'Status',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.call_outlined),
-                activeIcon: Icon(Icons.call_rounded),
-                label: 'Calls',
-              ),
-            ],
-          ),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline),
+              activeIcon: Icon(Icons.chat_bubble),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.circle_outlined),
+              activeIcon: Icon(Icons.circle),
+              label: 'Status',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.call_outlined),
+              activeIcon: Icon(Icons.call),
+              label: 'Calls',
+            ),
+          ],
         ),
       ),
     );

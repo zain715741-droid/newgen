@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:newgen/utils/cloudinary_servcies/cloundinary_services.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -43,13 +45,25 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             children: [
 
-              const CircleAvatar(
-                radius: 55,
-                backgroundColor: Color(0xff667EEA),
-                child: Icon(
-                  Icons.person,
-                  size: 60,
-                  color: Colors.white,
+              InkWell(
+                 onTap: ()async {
+
+                  ImagePicker picker = ImagePicker();
+                  final pickedFile = await picker.pickImage(source: ImageSource.camera);
+                  CloundinaryServices().uploadImage(
+               await pickedFile!.path  );
+
+
+                  // Handle profile picture tap
+                },
+                child: const CircleAvatar(
+                  radius: 55,
+                  backgroundColor: Color(0xff667EEA),
+                  child: Icon(
+                    Icons.person,
+                    size: 60,
+                    color: Colors.white,
+                  ),
                 ),
               ),
 

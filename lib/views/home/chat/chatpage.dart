@@ -11,7 +11,6 @@ class ChatPage extends StatelessWidget {
 
   final TextEditingController msgCtrl = TextEditingController();
   final showEmoji = false.obs;
-
   late final ChatCtrl ctrl = Get.put( ChatCtrl(uid), tag: uid, );
 
 
@@ -99,10 +98,7 @@ class ChatPage extends StatelessWidget {
 
                 if (docs.isEmpty) {
                   return Center(
-                    child: Text(
-                      'Start chatting with $name 👋',
-                      style: TextStyle(color: Colors.grey.shade600,),
-                    ),
+                    child: Text('Start chatting with $name 👋',style: TextStyle(color: Colors.grey.shade600,),),
                   );
                 }
 
@@ -168,9 +164,7 @@ class ChatPage extends StatelessWidget {
                           maxLines: 4,
                           textInputAction:TextInputAction.send,
                           onSubmitted: (_) => send(),
-                          decoration: InputDecoration(
-                            hintText: 'Type a message...',
-
+                          decoration: InputDecoration(hintText: 'Type a message...',
                             prefixIcon: Obx(
                               () => IconButton(
                                 onPressed: () {
@@ -274,7 +268,6 @@ class ChatPage extends StatelessWidget {
                 Obx(
                   () => showEmoji.value ? SizedBox(
                           height: 280,
-
                           child: EmojiPicker(
                             textEditingController: msgCtrl,
                             config: Config(
@@ -284,9 +277,8 @@ class ChatPage extends StatelessWidget {
                               bottomActionBarConfig:const BottomActionBarConfig(),
                             ),  
                           ),
-
-
                         )
+
                       : const SizedBox(),
                 ),
               ],

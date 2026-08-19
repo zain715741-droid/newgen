@@ -14,10 +14,7 @@ class ChatCtrl extends GetxController {
     return '${ids[0]}_${ids[1]}';
   }
 
-  CollectionReference get messages => FirebaseFirestore.instance
-      .collection('chats')
-      .doc(chatId)
-      .collection('messages');
+  CollectionReference get messages => FirebaseFirestore.instance.collection('chats').doc(chatId).collection('messages');
 
   void sendMessage(String text) {
     if (text.trim().isEmpty) return;

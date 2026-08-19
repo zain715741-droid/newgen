@@ -122,7 +122,7 @@ class HomePage extends StatelessWidget {
            
             // PROFILE
             ListTile(
-              leading: const Icon(Icons.person_outline),
+              leading:const Icon(Icons.person_outline),
               title: const Text('Profile'),
               onTap: () {
                 Get.back();

@@ -10,6 +10,7 @@ class ChatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final myUid = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
@@ -39,7 +40,6 @@ class ChatsPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final user = users[index];
               final data = user.data()  as Map<String, dynamic>;
-
               final name = data['name'] ?? 'User';
               final uid = user.id;
 
@@ -109,8 +109,8 @@ class ChatsPage extends StatelessWidget {
                   onTap: () {
                     Get.to(
                       () => ChatPage(
-                                        name: name,
-                                        uid: uid,
+                                 name: name,
+                                 uid: uid,                 
                             ),
                            );
                   },
@@ -121,6 +121,7 @@ class ChatsPage extends StatelessWidget {
         },
       ),
 
+
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color(0xff667EEA),
         foregroundColor: Colors.white,
@@ -128,10 +129,11 @@ class ChatsPage extends StatelessWidget {
         onPressed: () {
           Get.to(() => const NewChatPage());
         },
-
         icon: const Icon(Icons.chat),
         label: const Text('New Chat'),
       ),
+
+
     );
   }
 }

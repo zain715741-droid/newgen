@@ -5,11 +5,5 @@ import 'package:get/get.dart';
 class NewChatCtrl extends GetxController {
 
   Stream<QuerySnapshot> get students =>
-      FirebaseFirestore.instance
-          .collection('student')
-          .where(
-            'uid',
-            isNotEqualTo: FirebaseAuth.instance.currentUser!.uid,
-          )
-          .snapshots();
+      FirebaseFirestore.instance.collection('student').where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
 }
